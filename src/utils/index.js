@@ -1,0 +1,41 @@
+import moment from "moment";
+
+export const getTodaysDate = () => moment().format('YYYY-MM-DD');
+export const getTomorrowsDate = () => moment().add('days', 1).format('YYYY-MM-DD');
+export const getCityName = (cityId) => {
+    switch (cityId) {
+        case 1:
+            return "Birmingham";
+        case 2:
+            return "Brighton";
+        case 3:
+            return "Cardiff";
+        case 4:
+            return "Glasgow";
+        case 5:
+            return "Hull";
+        case 6:
+            return "Leeds";
+        case 7:
+            return "Liverpool";
+        case 8:
+            return "London";
+        case 9:
+            return "Manchester";
+        case 10:
+            return "Norwich";
+        case 11:
+            return "Plymouth";
+        case 12:
+            return "Portsmouth";
+        case 13:
+            return "Sheffield";
+        case 14:
+            return "Southampton";
+        case 15:
+            return "Swansea";
+        default:
+            return "London";
+    }
+};
+

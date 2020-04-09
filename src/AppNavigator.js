@@ -99,9 +99,9 @@ const AppStack = createStackNavigator(
 
 const RootStack = createAppContainer(createSwitchNavigator(
     {
-        App: AppStack,
+        AppStack: AppStack,
     },
     {
-        initialRouteName: 'App',
+        initialRouteName: 'AppStack',
     }
 ));
