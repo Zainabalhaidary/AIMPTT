@@ -14,22 +14,6 @@ const INITIAL_STATE = {
     loading: false,
     error: null,
 };
-// City = 1   City = "birmingham"
-// City = 2   City = "brighton"
-// City = 3   City = "cardiff"
-// City = 4   City = "glasgow"
-// City = 5   City = "hull"
-// City = 6   City = "leeds"
-// City = 7   City = "liverpool"
-// City = 8   City = "london"
-// City = 9   City = "manchester"
-// City = 10   City = "norwich"
-// City = 11   City = "plymouth"
-// City = 12   City = "portsmouth"
-// City = 13   City = "sheffield"
-// City = 14   City = "southampton"
-// City = 15   City = "swansea"
-
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {

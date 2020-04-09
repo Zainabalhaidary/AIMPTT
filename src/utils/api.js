@@ -20,9 +20,9 @@ export const getPrayersApi = (city) => {
 
 //function that gets all the prayers for the current day
 export const getPrayerApi = (city, date = getTodaysDate()) => {
-    return instance.get("read_single.php?Date=" + date + "&City=" + city)
+    return instance.get("read_single.php?Date=\"" + date + "\"&City=" + city)
         .then((resp) => {
-            return resp;
+            return resp.data;
         }).catch(err => {
             throw new Error(err);
         });

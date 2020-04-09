@@ -26,5 +26,17 @@ const styles = StyleSheet.create({
     textFont: {
         fontSize: responsiveFontSize(2.9),
     },
+    genericText: {
+        fontSize: responsiveFontSize(1.87)
+    },
+    homepageRow: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: responsiveHeight(1),
+        width: responsiveWidth(90),
+        paddingHorizontal: responsiveWidth(10)
+    }
 });
 export default styles;

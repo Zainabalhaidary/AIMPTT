@@ -1,3 +1,10 @@
 export const yellow = "#F3DD28";
 export const white = '#fff';
 export const black = '#000';
+export const imsakColor = "#fffdd4";
+export const dawnColor = "#fffbb8";
+export const sunriseColor = "#fef885";
+export const noonColor = "#fff86b";
+export const sunsetColor = "#fff64d";
+export const maghribColor = "#fff531";
+export const midnightColor = "#fff200";
