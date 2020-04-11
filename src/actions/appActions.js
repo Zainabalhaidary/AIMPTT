@@ -37,8 +37,13 @@ export const getCurrentPrayer = () => {
         dispatch(prayersAreLoading(true));
         return getPrayerApi(getState().app.city)
             .then(resp => {
-                dispatch(saveAppState({ ...getState().app, currentPrayer: resp }));
-            }).catch(error => dispatch(prayersHasErrored(error)));
+                dispatch(saveAppState({ ...getState().app, currentPrayer: resp }))
+                // setTimeout( function(){ dispatch(saveAppState({ ...getState().app, currentPrayer: resp })); }, 5000);
+            }).catch(error => {
+                console.log("\\\\\\\\\\\\"+JSON.stringify(error));
+                dispatch(prayersHasErrored("error"));
+            }
+            );
     };
 };
 

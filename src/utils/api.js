@@ -20,10 +20,14 @@ export const getPrayersApi = (city) => {
 
 //function that gets all the prayers for the current day
 export const getPrayerApi = (city, date = getTodaysDate()) => {
-    return instance.get("read_single.php?Date=\"" + date + "\"&City=" + city)
+    // return instance.get("read_single.php?Date=\"" + date + "\"&City=" + city)
+    return instance.get("read_single.php?Date=\"" +"mmm"+ "\"&City=" + city)
         .then((resp) => {
-            return resp.data;
+            if (resp.data.Imsak)
+                return resp.data;
+            else
+                throw new Error("Sorry, we are experiencing some technical difficulties. Please tru again later.");
         }).catch(err => {
-            throw new Error(err);
+            throw new Error("Sorry, we are experiencing some technical difficulties. Please tru again later.");
         });
 };
