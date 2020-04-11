@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
 import { Button, Icon } from 'native-base';
 import HomeScreen from './screens/HomeScreen';
 import TomorrowScreen from './screens/TomorrowScreen';
@@ -7,8 +7,10 @@ import SettingsScreen from './screens/SettingsScreen';
 import YesterdayScreen from './screens/YesterdayScreen';
 import MonthScreen from './screens/MonthScreen';
 import styles from '../styles';
-import { white, black } from '../styles/colors';
+import { white, black, yellow, imsakColor } from '../styles/colors';
 import { Image } from 'react-native';
+import TodayScreen from './screens/TodayScreen';
+import { responsiveHeight } from './components/react-native-responsive-dimensions';
 export default class AppNavigator extends React.PureComponent {
 
     render() {
@@ -105,3 +107,26 @@ const RootStack = createAppContainer(createSwitchNavigator(
         initialRouteName: 'AppStack',
     }
 ));
+
+export const MyTabNavigator = createBottomTabNavigator(
+    {
+        Today: { screen: TodayScreen },
+        Tomorrow: { screen: TomorrowScreen }
+    },
+    {
+        tabBarPosition: 'bottom',
+        swipeEnabled: true,
+        animationEnabled: true,
+        tabBarOptions: {
+            activeBackgroundColor: yellow,
+            inactiveBackgroundColor: imsakColor,
+            activeTintColor: black,
+            inactiveTintColor: black,
+            labelStyle: [styles.genericText, { marginBottom: responsiveHeight(1.7) }],
+        }
+    }
+);
+
+export const RootTab = createAppContainer(MyTabNavigator);
+
+
