@@ -5,13 +5,13 @@ import { getCurrentPrayer } from '../actions';
 import styles from '../../styles';
 import { getTodaysDate, getCityName } from '../utils';
 import { imsakColor, dawnColor, sunriseColor, noonColor, sunsetColor, maghribColor, midnightColor, black } from '../../styles/colors';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { responsiveWidth } from '../components/react-native-responsive-dimensions';
 
 class HomeScreen extends React.PureComponent {
   componentDidMount() {
-    // if (!this.props.app.currentPrayer || this.props.app.currentPrayer.Date !== getTodaysDate()) {
+    if (!this.props.app.currentPrayer || this.props.app.currentPrayer.Date !== getTodaysDate()) {
     this.props.getCurrentPrayer();
-    // }
+    }
   }
   render() {
     if (this.props.app.loading) {
@@ -21,7 +21,7 @@ class HomeScreen extends React.PureComponent {
     }
     else if (this.props.app.error) {
       return (
-        <View style={styles.backgroundStyle} >
+        <View style={[styles.backgroundStyle, { paddingHorizontal: responsiveWidth(12) }]} >
           <Text style={styles.textFont}>{this.props.app.error}</Text>
         </View>
       );

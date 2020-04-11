@@ -1,7 +1,9 @@
 import moment from "moment";
-
+//returns todays date
 export const getTodaysDate = () => moment().format('YYYY-MM-DD');
+//returns tomorrows date
 export const getTomorrowsDate = () => moment().add('days', 1).format('YYYY-MM-DD');
+//Returns the city name from city id
 export const getCityName = (cityId) => {
     switch (cityId) {
         case 1:
