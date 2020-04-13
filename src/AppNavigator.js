@@ -4,7 +4,6 @@ import { Button, Icon } from 'native-base';
 import HomeScreen from './screens/HomeScreen';
 import TomorrowScreen from './screens/TomorrowScreen';
 import SettingsScreen from './screens/SettingsScreen';
-import YesterdayScreen from './screens/YesterdayScreen';
 import MonthScreen from './screens/MonthScreen';
 import styles from '../styles';
 import { white, black, yellow, imsakColor } from '../styles/colors';
@@ -84,10 +83,6 @@ const AppStack = createStackNavigator(
             screen: TomorrowScreen,
             navigationOptions: secondaryHeader
         },
-        YesterdayScreen: {
-            screen: YesterdayScreen,
-            navigationOptions: secondaryHeader
-        },
         SettingsScreen: {
             screen: SettingsScreen,
             navigationOptions: settingsHeader
@@ -111,7 +106,8 @@ const RootStack = createAppContainer(createSwitchNavigator(
 export const MyTabNavigator = createBottomTabNavigator(
     {
         Today: { screen: TodayScreen },
-        Tomorrow: { screen: TomorrowScreen }
+        Tomorrow: { screen: TomorrowScreen },
+        Month: { screen: MonthScreen }
     },
     {
         tabBarPosition: 'bottom',

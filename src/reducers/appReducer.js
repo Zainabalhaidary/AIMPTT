@@ -9,6 +9,8 @@ const INITIAL_STATE = {
     pinned: true,
     currentPrayer: null,
     nextPrayer: null,
+    todaysPrayers: null,
+    tomorrowsPrayers: null,
     prayers: [],
     date: getTodaysDate(),
     loading: false,

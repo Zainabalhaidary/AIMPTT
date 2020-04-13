@@ -32,12 +32,12 @@ export const getPrayers = () => {
     };
 };
 
-export const getCurrentPrayer = () => {
+export const getTodayPrayer = () => {
     return (dispatch, getState) => {
         dispatch(prayersAreLoading(true));
         return getPrayerApi(getState().app.city)
             .then(resp => {
-                dispatch(saveAppState({ ...getState().app, currentPrayer: resp }));
+                dispatch(saveAppState({ ...getState().app, todaysPrayers: resp }));
             }).catch(error => {
                 dispatch(prayersHasErrored(error));
             }
@@ -48,9 +48,9 @@ export const getCurrentPrayer = () => {
 export const getTomorrowPrayer = () => {
     return (dispatch, getState) => {
         dispatch(prayersAreLoading(true));
-        return getPrayerApi(getState().app.city, getTomorrowsDate)
+        return getPrayerApi(getState().app.city, getTomorrowsDate())
             .then(resp => {
-                dispatch(saveAppState({ ...getState().app, currentPrayer: resp }));
+                dispatch(saveAppState({ ...getState().app, tomorrowsPrayers: resp }));
             }).catch(error => dispatch(prayersHasErrored(error)));
     };
 };

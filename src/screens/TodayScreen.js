@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { getCurrentPrayer } from '../actions';
+import { getTodayPrayer } from '../actions';
 import styles from '../../styles';
 import { getTodaysDate, getCityName } from '../utils';
 import { imsakColor, dawnColor, sunriseColor, noonColor, sunsetColor, maghribColor, midnightColor, black } from '../../styles/colors';
@@ -9,8 +9,8 @@ import { responsiveWidth } from '../components/react-native-responsive-dimension
 
 class HomeScreen extends React.PureComponent {
   componentDidMount() {
-    if (!this.props.app.currentPrayer || this.props.app.currentPrayer.Date !== getTodaysDate()) {
-    this.props.getCurrentPrayer();
+    if (!this.props.app.todaysPrayers || this.props.app.todaysPrayers.Date !== getTodaysDate()) {
+    this.props.getTodayPrayer();
     }
   }
   render() {
@@ -35,14 +35,14 @@ class HomeScreen extends React.PureComponent {
               <Text style={styles.genericText}>{this.props.app.date}</Text>
             </View>
             <View style={{ flex: 5 }}>
-              {this.props.app.currentPrayer &&
+              {this.props.app.todaysPrayers &&
                 <View style={{ flex: 1 }}>
                   <View style={[styles.homepageRow, { backgroundColor: imsakColor }]}>
                     <Text style={styles.genericText}>Imsak</Text>
                     <Text style={styles.genericText}>
                       {
-                        this.props.app.currentPrayer.Imsak &&
-                        this.props.app.currentPrayer.Imsak.slice(0, -3)
+                        this.props.app.todaysPrayers.Imsak &&
+                        this.props.app.todaysPrayers.Imsak.slice(0, -3)
                       }
                     </Text>
                   </View>
@@ -50,8 +50,8 @@ class HomeScreen extends React.PureComponent {
                     <Text style={styles.genericText}>Dawn</Text>
                     <Text style={styles.genericText}>
                       {
-                        this.props.app.currentPrayer.Dawn &&
-                        this.props.app.currentPrayer.Dawn.slice(0, -3)
+                        this.props.app.todaysPrayers.Dawn &&
+                        this.props.app.todaysPrayers.Dawn.slice(0, -3)
                       }
                     </Text>
                   </View>
@@ -59,8 +59,8 @@ class HomeScreen extends React.PureComponent {
                     <Text style={styles.genericText}>Sunrise</Text>
                     <Text style={styles.genericText}>
                       {
-                        this.props.app.currentPrayer.Sunrise &&
-                        this.props.app.currentPrayer.Sunrise.slice(0, -3)
+                        this.props.app.todaysPrayers.Sunrise &&
+                        this.props.app.todaysPrayers.Sunrise.slice(0, -3)
                       }
                     </Text>
                   </View>
@@ -68,8 +68,8 @@ class HomeScreen extends React.PureComponent {
                     <Text style={styles.genericText}>Noon</Text>
                     <Text style={styles.genericText}>
                       {
-                        this.props.app.currentPrayer.Noon &&
-                        this.props.app.currentPrayer.Noon.slice(0, -3)
+                        this.props.app.todaysPrayers.Noon &&
+                        this.props.app.todaysPrayers.Noon.slice(0, -3)
                       }
                     </Text>
                   </View>
@@ -77,8 +77,8 @@ class HomeScreen extends React.PureComponent {
                     <Text style={styles.genericText}>Sunset</Text>
                     <Text style={styles.genericText}>
                       {
-                        this.props.app.currentPrayer.Sunset &&
-                        this.props.app.currentPrayer.Sunset.slice(0, -3)
+                        this.props.app.todaysPrayers.Sunset &&
+                        this.props.app.todaysPrayers.Sunset.slice(0, -3)
                       }
                     </Text>
                   </View>
@@ -86,8 +86,8 @@ class HomeScreen extends React.PureComponent {
                     <Text style={styles.genericText}>Maghrib</Text>
                     <Text style={styles.genericText}>
                       {
-                        this.props.app.currentPrayer.Maghrib &&
-                        this.props.app.currentPrayer.Maghrib.slice(0, -3)
+                        this.props.app.todaysPrayers.Maghrib &&
+                        this.props.app.todaysPrayers.Maghrib.slice(0, -3)
                       }
                     </Text>
                   </View>
@@ -95,8 +95,8 @@ class HomeScreen extends React.PureComponent {
                     <Text style={styles.genericText}>Midnight</Text>
                     <Text style={styles.genericText}>
                       {
-                        this.props.app.currentPrayer.Midnight &&
-                        this.props.app.currentPrayer.Midnight.slice(0, -3)
+                        this.props.app.todaysPrayers.Midnight &&
+                        this.props.app.todaysPrayers.Midnight.slice(0, -3)
                       }
                     </Text>
                   </View>
@@ -116,4 +116,4 @@ function mapStateToProps(state) {
     app: state.app,
   };
 }
-export default connect(mapStateToProps, { getCurrentPrayer })(HomeScreen);
+export default connect(mapStateToProps, { getTodayPrayer })(HomeScreen);
