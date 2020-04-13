@@ -40,4 +40,13 @@ export const getCityName = (cityId) => {
             return "London";
     }
 };
+//get the (current) month start date
+export const getMonthStartDate = (month = moment().format('M'))=>{
+    return  moment([moment().year(), month - 1]).format('YYYY-MM-DD');
+};
+
+//get the current month end date
+export const getMonthEndDate = (month = moment().format('M'))=>{
+    return moment(getMonthStartDate(month)).endOf('month').format('YYYY-MM-DD');
+};
 

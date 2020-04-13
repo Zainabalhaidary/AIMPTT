@@ -1,6 +1,6 @@
 import { SAVE_APP_STATE, PRAYERS_HAS_ERRORED, PRAYERS_ARE_LOADING } from './types';
 import { getPrayersApi, getPrayerApi } from '../utils/api';
-import { getTomorrowsDate } from '../utils';
+import { getTomorrowsDate, getMonthEndDate, getMonthStartDate } from '../utils';
 
 export const saveAppState = (item) => {
     return {
@@ -22,10 +22,10 @@ export const prayersAreLoading = () => {
     };
 };
 
-export const getPrayers = () => {
+export const getPrayers = (startDate = getMonthStartDate(), endDate = getMonthEndDate()) => {
     return (dispatch, getState) => {
         dispatch(prayersAreLoading(true));
-        return getPrayersApi(getState().app.city)
+        return getPrayersApi(getState().app.city, startDate, endDate)
             .then(prayersArr => {
                 dispatch(saveAppState({ ...getState().app, prayers: prayersArr }));
             }).catch(error => dispatch(prayersHasErrored(error)));

@@ -7,10 +7,8 @@ instance.defaults.baseURL = BASE_API_URL;
 instance.defaults.timeout = 20000;
 
 //function that gets all the prayers for the current month
-export const getPrayersApi = (city) => {
-    let monthStart = null;
-    let monthEnd = null;
-    return instance.get("read_by_date_range.php?Date1=" + monthStart + "&Date2=" + monthEnd + "&City=" + city)
+export const getPrayersApi = (city, monthStart, monthEnd) => {
+    return instance.get("read_by_date_range.php?Date1=\"" + monthStart + "\"&Date2=\"" + monthEnd + "\"&City=" + city)
         .then((resp) => {
             return resp;
         }).catch(err => {
