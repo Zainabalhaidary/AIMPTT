@@ -37,6 +37,9 @@ const styles = StyleSheet.create({
         margin: responsiveHeight(1),
         width: responsiveWidth(90),
         paddingHorizontal: responsiveWidth(10)
+    },
+    scrollView: {
+        flex: 1
     }
 });
 export default styles;

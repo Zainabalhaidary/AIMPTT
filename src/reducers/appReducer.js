@@ -1,5 +1,4 @@
 import { SAVE_APP_STATE, PRAYERS_ARE_LOADING, PRAYERS_HAS_ERRORED } from '../actions/types';
-import { getTodaysDate } from '../utils';
 
 const INITIAL_STATE = {
     city: 8,//london by default
@@ -12,7 +11,6 @@ const INITIAL_STATE = {
     todaysPrayers: null,
     tomorrowsPrayers: null,
     prayers: [],
-    date: getTodaysDate(),
     loading: false,
     error: null,
 };
