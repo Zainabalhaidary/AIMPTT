@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { yellow, black } from "./colors";
+import { yellow, black, noonColor, sunriseColor } from "./colors";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "../src/components/react-native-responsive-dimensions";
 
 const styles = StyleSheet.create({
@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
     genericText: {
         fontSize: responsiveFontSize(1.87)
     },
+    smallText: {
+        fontSize: responsiveFontSize(1.5)
+    },
     homepageRow: {
         flex: 1,
         flexDirection: 'row',
@@ -39,7 +42,33 @@ const styles = StyleSheet.create({
         paddingHorizontal: responsiveWidth(10)
     },
     scrollView: {
-        flex: 1
+        flex: 1,
+    },
+    monthColumn: {
+        width: responsiveWidth(15),
+        backgroundColor: noonColor,
+        flexDirection: 'column',
+        // justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: responsiveHeight(1),
+        paddingHorizontal: responsiveWidth(0.5),
+        paddingBottom: responsiveHeight(3)
+    },
+    monthCellWithoutColor: {
+        // backgroundColor: sunriseColor,
+        width: '100%',
+        height: '11%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // borderWidth:1
+    },
+    monthCell: {
+        backgroundColor: sunriseColor,
+        width: '100%',
+        height: '11%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // borderWidth:1
     }
 });
 export default styles;

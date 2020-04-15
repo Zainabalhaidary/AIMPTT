@@ -10,7 +10,7 @@ instance.defaults.timeout = 20000;
 export const getPrayersApi = (city, monthStart, monthEnd) => {
     return instance.get("read_by_date_range.php?Date1=\"" + monthStart + "\"&Date2=\"" + monthEnd + "\"&City=" + city)
         .then((resp) => {
-            return resp;
+            return resp.data;
         }).catch(err => {
             throw new Error(err);
         });
