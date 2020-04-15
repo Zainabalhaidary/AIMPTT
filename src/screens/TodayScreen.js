@@ -48,7 +48,7 @@ class HomeScreen extends React.PureComponent {
             >
               <View style={[styles.backgroundStyle]}>
                 <Text style={styles.textFont}>{getCityName(this.props.app.city)}</Text>
-                <Text style={styles.genericText}>{this.props.app.todaysPrayers.Date}</Text>
+                <Text style={styles.genericText}>{this.props.app.todaysPrayers && this.props.app.todaysPrayers.Date}</Text>
               </View>
               <View style={{ flex: 5 }}>
                 {this.props.app.todaysPrayers &&
