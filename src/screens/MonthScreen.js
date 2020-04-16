@@ -1,30 +1,44 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView, RefreshControl, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import { getPrayers } from '../actions';
 import styles from '../../styles';
-import { getCityName, getMonthStartDate, getMonthEndDate } from '../utils';
+import { getMonthStartDate, getMonthEndDate } from '../utils';
 import { black, imsakColor } from '../../styles/colors';
 import { responsiveWidth } from '../components/react-native-responsive-dimensions';
 import moment from 'moment';
+import { CITIES, MONTHS } from '../Constants';
 
 class MonthScreen extends React.PureComponent {
   state = {
     refreshing: false,
-    startDate: getMonthStartDate(),
-    endDate: getMonthEndDate()
+    month: moment().month(),
+    city: this.props.app.city,
   }
   componentDidMount() {
     if (!this.props.app.prayers.length ||
       this.props.app.prayers.length === 0 ||
       moment(this.props.app.prayers[0].Date).month() !== moment().month()) {
-      this.props.getPrayers(this.state.startDate, this.state.endDate);
+      this.props.getPrayers(this.state.city, getMonthStartDate(this.state.month), getMonthEndDate(this.state.month));
     }
   }
-  _onRefresh = () => {
+
+  onRefresh = () => {
     this.setState({ refreshing: true });
-    this.props.getPrayers(this.state.startDate, this.state.endDate).then(() => {
+    this.props.getPrayers(this.state.city, getMonthStartDate(this.state.month), getMonthEndDate(this.state.month)).then(() => {
       this.setState({ refreshing: false });
+    });
+  }
+  updateState = async (name, value) => {
+    await this.promisedSetState({ [name]: value });
+    this.onRefresh();
+  }
+
+  promisedSetState = (newState) => {
+    return new Promise((resolve) => {
+      this.setState(newState, () => {
+        resolve();
+      });
     });
   }
 
@@ -46,10 +60,30 @@ class MonthScreen extends React.PureComponent {
       return (
         <View style={styles.backgroundStyle}>
           <View>
-            <View style={[styles.backgroundStyle, { borderWidth: 2, flexDirection: "row" }]}>
+            <View style={[styles.backgroundStyle, { flexDirection: "row", justifyContent: 'space-evenly' }]}>
+              <Picker
+                selectedValue={this.state.city}
+                style={styles.picker}
+                onValueChange={(itemValue, itemIndex) => this.updateState("city", itemValue)}
+              >
+                {
+                  CITIES.map(function (city) {
+                    return (<Picker.Item label={city.name} value={city.id} key={city.id} />);
+                  })
+                }
+              </Picker>
 
-              <Text style={styles.textFont}>{getCityName(this.props.app.city)}</Text>
-              <Text style={styles.genericText}>{moment(this.state.startDate).format('MMMM')}</Text>
+              <Picker
+                selectedValue={this.state.month}
+                style={styles.picker}
+                onValueChange={(itemValue, itemIndex) => this.updateState("month", itemValue)}
+              >
+                {
+                  MONTHS.map(function (month) {
+                    return (<Picker.Item label={month.name} value={month.id} key={month.id} />);
+                  })
+                }
+              </Picker>
             </View>
             <View style={{ flex: 6 }}>
               {prayers && prayers.length > 0 &&
@@ -57,7 +91,7 @@ class MonthScreen extends React.PureComponent {
                   persistentScrollbar={true}
                   contentContainerStyle={{ ...styles.scrollView, flexDirection: 'row' }}
                   refreshControl={
-                    <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />
+                    <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                   }
                 >
                   <View key="titlesView" style={styles.monthColumn}>

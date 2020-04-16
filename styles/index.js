@@ -69,6 +69,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // borderWidth:1
+    },
+    picker:{
+        height:responsiveHeight(10),
+        width: responsiveWidth(40),
+        justifyContent:'center',
+        alignItems:'center'
     }
 });
 export default styles;
