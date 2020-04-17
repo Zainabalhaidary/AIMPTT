@@ -48,7 +48,7 @@ export const getMonthStartDate = (month = moment().format('M')) => {
 
 //get the current month end date
 export const getMonthEndDate = (month = moment().format('M')) => {
-    return moment(getMonthStartDate(month + 1)).endOf('month').format('YYYY-MM-DD');
+    return moment(getMonthStartDate(month)).endOf('month').format('YYYY-MM-DD');
 };
 
 //Return notification type name
@@ -79,6 +79,8 @@ export const getEventName = (eventID) => {
             return "Maghrib";
         case 6:
             return "Midnight";
+        default:
+            return "";
     }
 };
 

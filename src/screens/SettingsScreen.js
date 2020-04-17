@@ -7,6 +7,8 @@ import { responsiveWidth } from '../components/react-native-responsive-dimension
 import { Icon } from 'native-base';
 import CityModal from '../components/CityModal';
 import NotificationTypeModal from '../components/NotificationTypeModal';
+import NotificationTimeModal from '../components/NotificationTimeModal';
+import PinnedModal from '../components/PinnedModal';
 
 class SettingsScreen extends React.PureComponent {
   state = {
@@ -55,7 +57,7 @@ class SettingsScreen extends React.PureComponent {
             <View style={{ paddingRight: responsiveWidth(5) }}><Icon type="Ionicons" name="ios-time" /></View>
             <View>
               <Text style={styles.genericText}>Notification Times</Text>
-              <Text style={styles.smallText}>{this.props.app.notificationTimes.map(function (time) { return getEventName(time) + "  "; })}</Text>
+              <Text style={styles.smallText}>{this.props.app.notificationTimes.map(function (time) { return getEventName(time) + (getEventName(time) ? "  " : ""); })}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -83,6 +85,22 @@ class SettingsScreen extends React.PureComponent {
             <NotificationTypeModal
               onSelect={() => this.changeModalState("showNotificationTypeModal", false)}
               visible={this.state.showNotificationTypeModal}
+              navigation={this.props.navigation}
+            />
+          }
+          {
+            this.state.showNotificationTimeModal &&
+            <NotificationTimeModal
+              onSelect={() => this.changeModalState("showNotificationTimeModal", false)}
+              visible={this.state.showNotificationTimeModal}
+              navigation={this.props.navigation}
+            />
+          }
+          {
+            this.state.showPinnedModal &&
+            <PinnedModal
+              onSelect={() => this.changeModalState("showPinnedModal", false)}
+              visible={this.state.showPinnedModal}
               navigation={this.props.navigation}
             />
           }
