@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { yellow, black, noonColor, sunriseColor } from "./colors";
+import { yellow, black, noonColor, sunriseColor, white } from "./colors";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "../src/components/react-native-responsive-dimensions";
 
 const styles = StyleSheet.create({
@@ -70,11 +70,33 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // borderWidth:1
     },
-    picker:{
-        height:responsiveHeight(10),
+    picker: {
+        height: responsiveHeight(10),
         width: responsiveWidth(40),
-        justifyContent:'center',
-        alignItems:'center'
-    }
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    settingButtonOuterView: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: responsiveWidth(7),
+        paddingVertical: responsiveWidth(4),
+    },
+    modalStyle: {
+        width: responsiveWidth(80),
+        height: responsiveHeight(80),
+        backgroundColor: white,
+    },
+    modalStyleOuter: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalStyleSmall: {
+        width: responsiveWidth(80),
+        height: responsiveHeight(30),
+        backgroundColor: white,
+    },
 });
 export default styles;

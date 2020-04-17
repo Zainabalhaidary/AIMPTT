@@ -12,7 +12,7 @@ class TomorrowScreen extends React.PureComponent {
     refreshing: false,
   }
   componentDidMount() {
-    if (!this.props.app.tomorrowsPrayers || this.props.app.tomorrowsPrayers.Date !== getTomorrowsDate()) {
+    if (!this.props.app.tomorrowsPrayers || this.props.app.tomorrowsPrayers.Date !== getTomorrowsDate() || this.props.app.todaysPrayers.City !== this.props.app.city) {
       this.props.getTomorrowPrayer();
     }
   }

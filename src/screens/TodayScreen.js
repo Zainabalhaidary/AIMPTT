@@ -12,14 +12,14 @@ class HomeScreen extends React.PureComponent {
     refreshing: false,
   }
   componentDidMount() {
-    if (!this.props.app.todaysPrayers || this.props.app.todaysPrayers.Date !== getTodaysDate()) {
+    if (!this.props.app.todaysPrayers || this.props.app.todaysPrayers.Date !== getTodaysDate() || this.props.app.todaysPrayers.City !== this.props.app.city) {
       this.props.getTodayPrayer();
     }
   }
   _onRefresh = () => {
-    this.setState({refreshing: true});
+    this.setState({ refreshing: true });
     this.props.getTodayPrayer().then(() => {
-      this.setState({refreshing: false});
+      this.setState({ refreshing: false });
     });
   }
 

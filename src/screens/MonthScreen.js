@@ -15,10 +15,12 @@ class MonthScreen extends React.PureComponent {
     month: moment().month(),
     city: this.props.app.city,
   }
-  componentDidMount() {
+  componentWillMount = () => {
     if (!this.props.app.prayers.length ||
       this.props.app.prayers.length === 0 ||
-      moment(this.props.app.prayers[0].Date).month() !== moment().month()) {
+      moment(this.props.app.prayers[0].Date).month() !== moment().month() ||
+      this.props.app.prayers[0].City !== this.props.app.city
+    ) {
       this.props.getPrayers(this.state.city, getMonthStartDate(this.state.month), getMonthEndDate(this.state.month));
     }
   }

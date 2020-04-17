@@ -1,4 +1,5 @@
 import moment from "moment";
+import { StackActions, NavigationActions } from "react-navigation";
 //returns todays date
 export const getTodaysDate = () => moment().format('YYYY-MM-DD');
 //returns tomorrows date
@@ -49,4 +50,46 @@ export const getMonthStartDate = (month = moment().format('M')) => {
 export const getMonthEndDate = (month = moment().format('M')) => {
     return moment(getMonthStartDate(month + 1)).endOf('month').format('YYYY-MM-DD');
 };
+
+//Return notification type name
+export const getNotificationTypeName = (type) => {
+    switch (type) {
+        case 0:
+            return "Silent";
+        case 1:
+            return "Vibrate";
+        case 2:
+            return "Sound";
+    }
+};
+//Return event name
+export const getEventName = (eventID) => {
+    switch (eventID) {
+        case 0:
+            return "Imsak";
+        case 1:
+            return "Dawn";
+        case 2:
+            return "Sunrise";
+        case 3:
+            return "Noon";
+        case 4:
+            return "Sunset";
+        case 5:
+            return "Maghrib";
+        case 6:
+            return "Midnight";
+    }
+};
+
+//this function resets the navigation stack
+export const resetNavigation = (navigation) => {
+    //start of reset navigation stack
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'HomeScreen' })],
+    });
+    navigation.dispatch(resetAction);
+    //end of reset navigation stack
+  };
 
