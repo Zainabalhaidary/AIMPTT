@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, ScrollView, RefreshControl, Picker } from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { getPrayers } from '../actions';
 import styles from '../../styles';
@@ -7,14 +7,19 @@ import { getMonthStartDate, getMonthEndDate, getCityName } from '../utils';
 import { black, imsakColor } from '../../styles/colors';
 import { responsiveWidth, responsiveFontSize } from '../components/react-native-responsive-dimensions';
 import moment from 'moment';
-import { MONTHS } from '../Constants';
 import { Icon } from 'native-base';
+import MonthModal from '../components/MonthModal';
 
 class MonthScreen extends React.PureComponent {
   state = {
     refreshing: false,
     month: moment().month(),
+    showMonthModal: false,
     city: this.props.app.city,
+  }
+
+  changeModalState = (modalName, value) => {
+    this.setState({ [modalName]: value });
   }
   componentWillMount = () => {
     if (!this.props.app.prayers.length ||
@@ -65,31 +70,35 @@ class MonthScreen extends React.PureComponent {
           <View>
             <View style={[styles.backgroundStyle, { flexDirection: "row", justifyContent: 'space-around' }]}>
               <View style={styles.monthlyHeaderView}>
-                <View style={{ flex: 1}}>
-                  <Icon type="Entypo" name="location-pin" style={{fontSize:responsiveFontSize(4)}}/>
+                <View style={{ flex: 1 }}>
+                  <Icon type="Entypo" name="location-pin" style={{ fontSize: responsiveFontSize(4) }} />
                 </View>
-                <View style={{ flex: 3}}>
+                <View style={{ flex: 3 }}>
                   <Text style={styles.textFont}>{getCityName(this.props.app.city)}</Text>
                 </View>
               </View>
-              <View style={styles.monthlyHeaderView}>
-                <View style={{ flex: 1}}>
-                  <Icon type="FontAwesome" name="calendar" style={styles.textFont}/>
+              <TouchableOpacity onPress={() => this.changeModalState("showMonthModal", true)} style={styles.monthlyHeaderView}>
+
+                <View style={{ flex: 1 }}>
+                  <Icon type="FontAwesome" name="calendar" style={styles.textFont} />
                 </View>
-                <View style={{ flex: 2}}>
-                  <Picker
-                    selectedValue={this.state.month}
-                    style={styles.picker}
-                    onValueChange={(itemValue, itemIndex) => this.updateState("month", itemValue)}
-                  >
-                    {
-                      MONTHS.map(function (month) {
-                        return (<Picker.Item label={month.name} value={month.id} key={month.id} />);
-                      })
-                    }
-                  </Picker>
+                <View style={{ flex: 2 }}>
+                  <Text style={styles.textFont}>{moment([moment().year(), this.state.month]).format('MMMM')}</Text>
+                  {
+                    this.state.showMonthModal &&
+                    <MonthModal
+                      onSelect={(month) => {
+                        this.changeModalState("showMonthModal", false);
+                        this.updateState("month", month);
+                      }}
+                      visible={this.state.showMonthModal}
+                    />
+                  }
                 </View>
-              </View>
+                <View style={{ flex: 1 }}>
+                  <Icon type="Entypo" name="select-arrows" style={styles.textFont} />
+                </View>
+              </TouchableOpacity>
             </View>
             <View style={{ flex: 6 }}>
               {prayers && prayers.length > 0 &&
