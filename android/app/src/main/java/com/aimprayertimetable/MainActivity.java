@@ -1,4 +1,4 @@
-package com.aimprayertimetable;
+package com.aim.prayertimes;
 
 import com.facebook.react.ReactActivity;
 

@@ -1,4 +1,4 @@
-package com.aimprayertimetable;
+package com.aim.prayertimes;
 
 import android.app.Application;
 import android.content.Context;

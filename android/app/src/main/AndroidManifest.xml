@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.aimprayertimetable">
+  package="com.aim.prayertimes">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
