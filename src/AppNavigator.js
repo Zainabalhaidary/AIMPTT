@@ -40,9 +40,9 @@ const settingsHeader = ({ navigation }) => {
         title: '',
         headerTintColor: black,
         headerStyle: styles.headerStyle,
-        // headerLeft: (<Button transparent onPress={() => navigation.navigate('HomeScreen')} >
-        //     <Icon name='home' type='Entypo' style={styles.black} />
-        // </Button>),
+        headerLeft: (<Button transparent onPress={() => navigation.navigate('HomeScreen')} >
+            <Icon name='home' type='Entypo' style={styles.black} />
+        </Button>),
     };
 };
 
