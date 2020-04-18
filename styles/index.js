@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     textFont: {
-        fontSize: responsiveFontSize(2.9),
+        fontSize: responsiveFontSize(2.5),
     },
     genericText: {
         fontSize: responsiveFontSize(1.87)
