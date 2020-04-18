@@ -5,7 +5,7 @@ import { getPrayers } from '../actions';
 import styles from '../../styles';
 import { getMonthStartDate, getMonthEndDate, getCityName } from '../utils';
 import { black, imsakColor } from '../../styles/colors';
-import { responsiveWidth, responsiveHeight } from '../components/react-native-responsive-dimensions';
+import { responsiveWidth, responsiveHeight, responsiveFontSize } from '../components/react-native-responsive-dimensions';
 import moment from 'moment';
 import { MONTHS } from '../Constants';
 import { Icon } from 'native-base';
@@ -64,15 +64,19 @@ class MonthScreen extends React.PureComponent {
         <View style={styles.backgroundStyle}>
           <View>
             <View style={[styles.backgroundStyle, { flexDirection: "row", justifyContent: 'space-around' }]}>
-              <View style={{ flex: 1, height: responsiveHeight(10), justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
-                <Icon type="Entypo" name="location-pin" />
-                <Text style={styles.textFont}>{getCityName(this.props.app.city)}</Text>
-              </View>
-              <View style={{ flex: 1, height: responsiveHeight(10), justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
-                <View style={{ flex: 1 }}>
-                  <Icon type="FontAwesome" name="calendar" />
+              <View style={styles.monthlyHeaderView}>
+                <View style={{ flex: 1}}>
+                  <Icon type="Entypo" name="location-pin" style={{fontSize:responsiveFontSize(4)}}/>
                 </View>
-                <View style={{ flex: 2 }}>
+                <View style={{ flex: 3}}>
+                  <Text style={styles.textFont}>{getCityName(this.props.app.city)}</Text>
+                </View>
+              </View>
+              <View style={styles.monthlyHeaderView}>
+                <View style={{ flex: 1}}>
+                  <Icon type="FontAwesome" name="calendar" style={styles.textFont}/>
+                </View>
+                <View style={{ flex: 2}}>
                   <Picker
                     selectedValue={this.state.month}
                     style={styles.picker}

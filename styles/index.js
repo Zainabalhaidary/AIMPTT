@@ -102,5 +102,12 @@ const styles = StyleSheet.create({
         height: responsiveHeight(30),
         backgroundColor: white,
     },
+    monthlyHeaderView: {
+        flex: 1,
+        height: responsiveHeight(10),
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row"
+    }
 });
 export default styles;
