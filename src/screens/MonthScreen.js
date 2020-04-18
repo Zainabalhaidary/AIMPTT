@@ -3,11 +3,12 @@ import { View, Text, ActivityIndicator, ScrollView, RefreshControl, Picker } fro
 import { connect } from 'react-redux';
 import { getPrayers } from '../actions';
 import styles from '../../styles';
-import { getMonthStartDate, getMonthEndDate } from '../utils';
+import { getMonthStartDate, getMonthEndDate, getCityName } from '../utils';
 import { black, imsakColor } from '../../styles/colors';
-import { responsiveWidth } from '../components/react-native-responsive-dimensions';
+import { responsiveWidth, responsiveHeight } from '../components/react-native-responsive-dimensions';
 import moment from 'moment';
-import { CITIES, MONTHS } from '../Constants';
+import { MONTHS } from '../Constants';
+import { Icon } from 'native-base';
 
 class MonthScreen extends React.PureComponent {
   state = {
@@ -62,30 +63,29 @@ class MonthScreen extends React.PureComponent {
       return (
         <View style={styles.backgroundStyle}>
           <View>
-            <View style={[styles.backgroundStyle, { flexDirection: "row", justifyContent: 'space-evenly' }]}>
-              <Picker
-                selectedValue={this.state.city}
-                style={styles.picker}
-                onValueChange={(itemValue, itemIndex) => this.updateState("city", itemValue)}
-              >
-                {
-                  CITIES.map(function (city) {
-                    return (<Picker.Item label={city.name} value={city.id} key={city.id} />);
-                  })
-                }
-              </Picker>
-
-              <Picker
-                selectedValue={this.state.month}
-                style={styles.picker}
-                onValueChange={(itemValue, itemIndex) => this.updateState("month", itemValue)}
-              >
-                {
-                  MONTHS.map(function (month) {
-                    return (<Picker.Item label={month.name} value={month.id} key={month.id} />);
-                  })
-                }
-              </Picker>
+            <View style={[styles.backgroundStyle, { flexDirection: "row", justifyContent: 'space-around' }]}>
+              <View style={{ flex: 1, height: responsiveHeight(10), justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
+                <Icon type="Entypo" name="location-pin" />
+                <Text style={styles.textFont}>{getCityName(this.props.app.city)}</Text>
+              </View>
+              <View style={{ flex: 1, height: responsiveHeight(10), justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
+                <View style={{ flex: 1 }}>
+                  <Icon type="FontAwesome" name="calendar" />
+                </View>
+                <View style={{ flex: 2 }}>
+                  <Picker
+                    selectedValue={this.state.month}
+                    style={styles.picker}
+                    onValueChange={(itemValue, itemIndex) => this.updateState("month", itemValue)}
+                  >
+                    {
+                      MONTHS.map(function (month) {
+                        return (<Picker.Item label={month.name} value={month.id} key={month.id} />);
+                      })
+                    }
+                  </Picker>
+                </View>
+              </View>
             </View>
             <View style={{ flex: 6 }}>
               {prayers && prayers.length > 0 &&

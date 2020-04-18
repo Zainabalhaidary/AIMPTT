@@ -72,9 +72,13 @@ const styles = StyleSheet.create({
     },
     picker: {
         height: responsiveHeight(10),
-        width: responsiveWidth(40),
+        width: responsiveWidth(30),
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        transform: [
+            { scaleX: 1.5 },
+            { scaleY: 1.5 },
+        ],
     },
     settingButtonOuterView: {
         flex: 1,
