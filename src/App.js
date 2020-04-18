@@ -1,13 +1,13 @@
 import React from 'react';
 import { YellowBox, Alert } from 'react-native';
 import AppNavigator from './AppNavigator';
-// import NotificationService from './NotificationService';
+import NotificationService from './NotificationService';
 export default class App extends React.PureComponent {
     constructor(props) {
+        super(props);
         YellowBox.ignoreWarnings(['Warning:']);//ignore yellow box messages that starts with "Wraning:"
         console.disableYellowBox = true;
         // this.notification = new NotificationService(this.onNotification);
-        super();
     }
 
     // //Gets called when the notification comes in
