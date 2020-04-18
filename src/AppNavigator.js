@@ -38,11 +38,11 @@ const monthlyViewHeader = ({ navigation }) => {
 const settingsHeader = ({ navigation }) => {
     return {
         title: '',
-        headerTintColor: white,
+        headerTintColor: black,
         headerStyle: styles.headerStyle,
-        headerLeft: (<Button transparent onPress={() => navigation.navigate('HomeScreen')} >
-            <Icon name='home' type='Entypo' style={styles.black} />
-        </Button>),
+        // headerLeft: (<Button transparent onPress={() => navigation.navigate('HomeScreen')} >
+        //     <Icon name='home' type='Entypo' style={styles.black} />
+        // </Button>),
     };
 };
 
