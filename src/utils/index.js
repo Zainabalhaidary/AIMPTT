@@ -85,11 +85,11 @@ export const getEventName = (eventID) => {
 };
 
 //this function resets the navigation stack
-export const resetNavigation = (navigation) => {
+export const resetNavigation = (navigation, screen) => {
     //start of reset navigation stack
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'HomeScreen' })],
+      actions: [NavigationActions.navigate({ routeName: screen })],
     });
     navigation.dispatch(resetAction);
     //end of reset navigation stack

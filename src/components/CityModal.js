@@ -4,6 +4,7 @@ import styles from '../../styles';
 import { CITIES } from '../Constants';
 import store from '../store';
 import { saveAppState } from '../actions';
+import { resetNavigation } from '../utils';
 
 const CityModal = (props) => {
     let state = store.getState();
@@ -26,7 +27,7 @@ const CityModal = (props) => {
                                             //close modal
                                             props.onSelect();
                                             //reset stack?
-                                            //resetNavigation(props.navigation);
+                                            resetNavigation(props.navigation, "SettingsScreen");
                                         }}>
                                         <View>
                                             <Text style={styles.genericText}>{city.name}</Text>
