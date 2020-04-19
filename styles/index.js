@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         color: black
     },
     aimHeaderLogo: {
-        width: responsiveHeight(5),
+        width: responsiveHeight(3),
         aspectRatio: 1,
         marginLeft: responsiveWidth(3)
     },
