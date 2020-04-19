@@ -71,7 +71,7 @@ class MonthScreen extends React.PureComponent {
             <View style={[styles.backgroundStyle, { flexDirection: "row", justifyContent: 'space-around' }]}>
               <View style={styles.monthlyHeaderView}>
                 <View style={{ flex: 1 }}>
-                  <Icon type="Entypo" name="location-pin" style={{ fontSize: responsiveFontSize(4) }} />
+                  <Icon type="Entypo" name="location-pin" style={styles.textFont} />
                 </View>
                 <View style={{ flex: 3 }}>
                   <Text style={styles.textFont}>{getCityName(this.props.app.city)}</Text>
@@ -80,7 +80,7 @@ class MonthScreen extends React.PureComponent {
               <TouchableOpacity onPress={() => this.changeModalState("showMonthModal", true)} style={styles.monthlyHeaderView}>
 
                 <View style={{ flex: 1 }}>
-                  <Icon type="FontAwesome" name="calendar" style={styles.textFont} />
+                  <Icon type="Entypo" name="calendar" style={styles.textFont} />
                 </View>
                 <View style={{ flex: 2 }}>
                   <Text style={styles.textFont}>{moment([moment().year(), this.state.month]).format('MMMM')}</Text>
