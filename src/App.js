@@ -7,23 +7,23 @@ export default class App extends React.PureComponent {
         super(props);
         YellowBox.ignoreWarnings(['Warning:']);//ignore yellow box messages that starts with "Wraning:"
         console.disableYellowBox = true;
-        // this.notification = new NotificationService(this.onNotification);
+        this.notification = new NotificationService(this.onNotification);
     }
 
-    // //Gets called when the notification comes in
-    // onNotification = (notif) => {
-    //     Alert.alert(notif.title, notif.message);
-    // }
+    //Gets called when the notification comes in
+    onNotification = (notif) => {
+        Alert.alert(notif.title, notif.message);
+    }
 
-    // //Permissions to use notifications
-    // handlePerm(perms) {
-    //     Alert.alert("Permissions", JSON.stringify(perms));
-    // }
+    //Permissions to use notifications
+    handlePerm(perms) {
+        Alert.alert("Permissions", JSON.stringify(perms));
+    }
 
-    // componentDidMount =() =>{
-    //     this.notification.localNotification();
-    //     this.notification.scheduleNotification();
-    // }
+    componentDidMount =() =>{
+        this.notification.localNotification();
+        this.notification.scheduleNotification();
+    }
     render() {
         return (<AppNavigator />);
     }
