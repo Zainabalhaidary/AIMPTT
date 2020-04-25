@@ -1,14 +1,16 @@
 import PushNotification from 'react-native-push-notification';
+import { getDateWithTime } from './utils';
 
 export default class NotificationService {
     //onNotificaitn is a function passed in that is to be called when a
     //notification is to be emitted.
     constructor(onNotification) {
         this.configure(onNotification);
-        this.lastId = 0;
+        // this.lastId = 0;
     }
 
     configure(onNotification) {
+        console.log("configuring onNotif");
         PushNotification.configure({
             onNotification: onNotification,
 
@@ -24,26 +26,34 @@ export default class NotificationService {
     }
 
     //Appears right away
-    localNotification() {
-        this.lastId++;
+    localNotification(time, eventName) {
+        console.log("showing instatnt pinned notification at " + date);
+        // this.lastId++;
+        let date = getDateWithTime(time);
         PushNotification.localNotification({
-            title: "Local Notification",
-            message: "My Notification Message",
+            id: date.getTime(),
+            title: "Next Prayer",
+            message: eventName + " " + time,
             playSound: false,
             soundName: 'default',
-            actions: '["Yes", "No"]'
+            ongoing: true
         });
     }
 
     //Appears after a specified time. App does not have to be open.
-    scheduleNotification() {
-        this.lastId++;
+    scheduleEvent(ongoing, time, eventName, nextPrayerTime, nextPrayerTitle) {
+        console.log("ongoing " + ongoing + " nextPrayerTitle " + nextPrayerTitle);
+        // this.lastId++;
+        let date = getDateWithTime(time);
+        console.log("scheduling notification at " + date);
         PushNotification.localNotificationSchedule({
-            date: new Date(Date.now() + (30 * 1000)), //30 seconds
-            title: "Scheduled Notification",
-            message: "My Notification Message",
+            id: date.getTime(),
+            date: date,
+            title: ongoing ? "Next Prayer" : "Current Prayer",
+            message: !ongoing ? (eventName + " " + time) : (nextPrayerTitle + " " + nextPrayerTime),
             playSound: true,
             soundName: 'default',
+            ongoing: ongoing
         });
     }
 
@@ -51,8 +61,8 @@ export default class NotificationService {
         return PushNotification.checkPermissions(cbk);
     }
 
-    cancelNotif() {
-        PushNotification.cancelLocalNotifications({ id: '' + this.lastId });
+    cancelNotif(id) {
+        PushNotification.cancelLocalNotifications({ id: '' + id });
     }
 
     cancelAll() {

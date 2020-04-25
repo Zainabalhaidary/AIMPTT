@@ -5,7 +5,7 @@ import { getPrayers } from '../actions';
 import styles from '../../styles';
 import { getMonthStartDate, getMonthEndDate, getCityName } from '../utils';
 import { black, imsakColor } from '../../styles/colors';
-import { responsiveWidth, responsiveFontSize } from '../components/react-native-responsive-dimensions';
+import { responsiveWidth } from '../components/react-native-responsive-dimensions';
 import moment from 'moment';
 import { Icon } from 'native-base';
 import MonthModal from '../components/MonthModal';
