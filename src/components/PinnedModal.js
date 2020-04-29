@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, View, Text, TouchableOpacity, Switch } from 'react-native';
 import styles from '../../styles';
 import store from '../store';
-import { saveAppState } from '../actions';
+import { saveAppStateBroker } from '../actions';
 import { connect } from 'react-redux';
 import { responsiveWidth } from './react-native-responsive-dimensions';
 
@@ -34,7 +34,7 @@ class PinnedModal extends React.PureComponent {
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", alignItems: 'center' }}>
                             <TouchableOpacity onPress={() => {
                                 //change store state
-                                store.dispatch(saveAppState({
+                                store.dispatch(saveAppStateBroker({
                                     ...this.props.app,
                                     pinned: this.state.pinnedSwitchValue
                                 }));

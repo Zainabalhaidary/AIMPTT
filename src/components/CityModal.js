@@ -3,7 +3,7 @@ import { Modal, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import styles from '../../styles';
 import { CITIES } from '../Constants';
 import store from '../store';
-import { saveAppState } from '../actions';
+import { saveAppStateBroker } from '../actions';
 import { resetNavigation } from '../utils';
 
 const CityModal = (props) => {
@@ -23,7 +23,7 @@ const CityModal = (props) => {
                                     <TouchableOpacity
                                         onPress={() => {
                                             //change store state
-                                            store.dispatch(saveAppState({ ...state.app, city: city.id }));
+                                            store.dispatch(saveAppStateBroker({ ...state.app, city: city.id }));
                                             //close modal
                                             props.onSelect();
                                             //reset stack?

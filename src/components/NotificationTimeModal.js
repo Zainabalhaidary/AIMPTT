@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, View, Text, TouchableOpacity, Switch } from 'react-native';
 import styles from '../../styles';
 import store from '../store';
-import { saveAppState } from '../actions';
+import { saveAppStateBroker } from '../actions';
 import { connect } from 'react-redux';
 import { responsiveWidth, responsiveHeight } from './react-native-responsive-dimensions';
 
@@ -45,7 +45,7 @@ class NotificationTypeModal extends React.PureComponent {
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", alignItems: 'center' }}>
                             <TouchableOpacity onPress={() => {
                                 //change store state
-                                store.dispatch(saveAppState({
+                                store.dispatch(saveAppStateBroker({
                                     ...this.props.app,
                                     notificationTimes: [
                                         this.state.Imsak ? 0 : null,

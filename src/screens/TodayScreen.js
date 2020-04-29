@@ -12,7 +12,7 @@ class HomeScreen extends React.PureComponent {
     refreshing: false,
   }
   componentDidMount() {
-    if (!this.props.app.todaysPrayers || this.props.app.todaysPrayers.Date !== getTodaysDate() || this.props.app.todaysPrayers.City !== this.props.app.city) {
+    if (!this.props.app.todaysPrayers || this.props.app.todaysPrayers.Date !== getTodaysDate() || this.props.app.todaysPrayers.City != this.props.app.city) {
       this.props.getTodayPrayer();
     }
   }

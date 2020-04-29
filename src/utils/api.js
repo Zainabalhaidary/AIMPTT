@@ -1,6 +1,7 @@
 import * as axios from 'axios';
 import { BASE_API_URL, TECH_DIFFICULTY_MSG, NETWORK_CONNECTION_MSG } from '../Constants';
 import { getTodaysDate } from '.';
+import NotificationServiceInstance from '../NotificationService';
 
 var instance = axios.create();
 instance.defaults.baseURL = BASE_API_URL;
@@ -18,6 +19,7 @@ export const getPrayersApi = (city, monthStart, monthEnd) => {
 
 //function that gets all the prayers for the current day
 export const getPrayerApi = (city, date = getTodaysDate()) => {
+    NotificationServiceInstance.localNotification("I am fetching data right now");
     return new Promise((resolve, reject) => {
         instance.get("read_single.php?Date=\"" + date + "\"&City=" + city)
             .then((resp) => {

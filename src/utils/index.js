@@ -1,6 +1,9 @@
 import moment from "moment";
 import { StackActions, NavigationActions } from "react-navigation";
-import NotificationService from '../NotificationService';
+import NotificationServiceInstance from '../NotificationService';
+// import { TODAY_PRAYERS_EXAMPLE } from "../Constants";
+import store from '../store';
+import { getTodayPrayer, getTomorrowPrayer } from "../actions";
 
 //returns todays date
 export const getTodaysDate = () => moment().format('YYYY-MM-DD');
@@ -98,56 +101,67 @@ export const resetNavigation = (navigation, screen) => {
 };
 //this method returns whether a certain time falls in a certain range
 export const isBetween = (time, startOfRange, endOfRange) => {
-    console.log("time " + time + " startOfRange " + startOfRange + " endOfRange " + endOfRange);
+    //console.log("time " + time + " startOfRange " + startOfRange + " endOfRange " + endOfRange);
     var format = 'HH:mm';
     // var time = moment() gives you current time. no format required.
     var time = moment(time, format),
         beforeTime = moment(startOfRange, format),
         afterTime = moment(endOfRange, format);
-    if (time.isBetween(beforeTime, afterTime)) {
+    if (time.isBetween(beforeTime, afterTime, null, '[]')) {
         console.log("in between");
         return true;
     }
     return false;
 };
 //iterates through times and generates notifications
-export const generateNotifications = (todaysPrayersObject, tomorrowsPrayersObject) => {
+export const generateNotifications = async (cancelPreviousAlrams = false) => {
+    NotificationServiceInstance.localNotification("Generating notifications");
+    await updateData();
+    const { todaysPrayers, notificationTimes } = store.getState().app;
+    //let todaysPrayers = TODAY_PRAYERS_EXAMPLE;
+    //let tomorrowsPrayers = TODAY_PRAYERS_EXAMPLE;
     let eventsArr = ["Imsak", "Sunrise", "Sunset", "Midnight"];
     let prayersArr = ["Dawn", "Noon", "Maghrib"];
-    let times = ["Imsak", "Dawn", "Sunrise", "Noon", "Sunset", "Maghrib", "Midnight"];
+    let times = notificationTimes.map(notifTimeId => (getEventName(notifTimeId)));
+    console.log("selected times array " + JSON.stringify(times));
     let format = 'HH:mm';
     let timeStart = moment().format("HH:mm");
     let timeEnd = moment(timeStart, format).add(15, 'minutes').format(format);
-    Object.keys(todaysPrayersObject).map((key) => {
+    if (cancelPreviousAlrams) {
+        NotificationServiceInstance.cancelAll();
+    }
+    Object.keys(todaysPrayers).map((key) => {
         if (times.includes(key)) {
-            if (isBetween(todaysPrayersObject[key].slice(0, -3), timeStart, timeEnd)) {
+            if (isBetween(todaysPrayers[key].slice(0, -3), timeStart, timeEnd)) {
                 if (eventsArr.includes(key)) {
                     console.log("regular event");
-                    scheculeNotif(todaysPrayersObject, tomorrowsPrayersObject, key, false);
+                    scheculeNotif(store.getState().app, key, false);
                 }
                 else if (prayersArr.includes(key)) {
                     console.log("prayer event");
-                    scheculeNotif(todaysPrayersObject, tomorrowsPrayersObject, key, true);
+                    let delay = getTimeDiff(todaysPrayers[key].slice(0, -3), timeEnd);
+                    scheculeNotif(store.getState().app, key, true, delay);
                 }
             }
         }
     });
 };
 //schedules the next events notfication
-export const scheculeNotif = (obj, obj2, currentEventKey, scheduleNext) => {
+export const scheculeNotif = (appData, currentEventKey, scheduleNext, delay) => {
+    const { todaysPrayers, tomorrowsPrayers } = appData;
+    // let todaysPrayers = TODAY_PRAYERS_EXAMPLE;
+    // let tomorrowsPrayers = TODAY_PRAYERS_EXAMPLE;
     console.log("schedule notif");
-    let notificationService = new NotificationService();
     if (scheduleNext) {
         console.log("show pinned next");
-        let nextEventKey = getNextPrayer(obj, obj2, currentEventKey);
-        notificationService.cancelAll();
-        // notificationService.cancelNotif(JSON.stringify(getDateWithTime(obj[currentEventKey])));
-        notificationService.scheduleEvent(true, obj[currentEventKey], currentEventKey, obj[nextEventKey], nextEventKey);
-        notificationService.scheduleEvent(false, obj[currentEventKey], currentEventKey);
+        let nextEvent = getNextPrayer(todaysPrayers, tomorrowsPrayers, currentEventKey);
+        setTimeout(NotificationServiceInstance.cancelAll(), delay);
+        NotificationServiceInstance.scheduleEvent(true, todaysPrayers[currentEventKey], nextEvent.key + " " + nextEvent.value, "Next Prayer", appData);//next prayer pinned alarm
+        NotificationServiceInstance.scheduleEvent(false, todaysPrayers[currentEventKey], currentEventKey + " " + todaysPrayers[currentEventKey], "Athan", appData);//current prayer unpinned alarm
     }
     else {
         console.log("not pinned");
-        notificationService.scheduleEvent(false, obj[currentEventKey], currentEventKey);
+        NotificationServiceInstance.scheduleEvent(false, todaysPrayers[currentEventKey], currentEventKey + " " + todaysPrayers[currentEventKey], "Alarm", appData);
     }
 };
 //get Todays date at a certain Time
@@ -176,7 +190,23 @@ export const getNextPrayer = (obj, obj2, key) => {
     if (prayersArr.includes(nextEventKey)) {
         return { key: nextEventKey, value: obj[nextEventKey] };
     }
-    return getNextPrayer(obj, nextEventKey, obj2);
+    return getNextPrayer(obj, obj2, nextEventKey);
 };
-
+//gets the latest data from the api if data is outdated
+export const updateData = () => {
+    if (!store.getState().app.todaysPrayers || store.getState().app.todaysPrayers.Date !== getTodaysDate() || store.getState().app.todaysPrayers.City != store.getState().app.city) {
+        store.dispatch(getTodayPrayer())
+            .then(() => {
+                return store.dispatch(getTomorrowPrayer());
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        store.dispatch(getTomorrowPrayer());
+    }
+};
+//gets the time difference between two times in milliseconds
+export const getTimeDiff = (start, end) => {
+    return moment(end, "HH:mm:ss").diff(moment(start, "HH:mm:ss"), "millisecond");
+};
 

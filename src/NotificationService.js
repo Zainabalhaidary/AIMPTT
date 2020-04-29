@@ -1,7 +1,7 @@
 import PushNotification from 'react-native-push-notification';
 import { getDateWithTime } from './utils';
 
-export default class NotificationService {
+class NotificationService {
     //onNotificaitn is a function passed in that is to be called when a
     //notification is to be emitted.
     constructor(onNotification) {
@@ -10,7 +10,7 @@ export default class NotificationService {
     }
 
     configure(onNotification) {
-        console.log("configuring onNotif");
+        //console.log("configuring onNotif");
         PushNotification.configure({
             onNotification: onNotification,
 
@@ -26,34 +26,33 @@ export default class NotificationService {
     }
 
     //Appears right away
-    localNotification(time, eventName) {
-        console.log("showing instatnt pinned notification at " + date);
+    localNotification(title) {
         // this.lastId++;
-        let date = getDateWithTime(time);
+        let date = new Date();
         PushNotification.localNotification({
             id: date.getTime(),
-            title: "Next Prayer",
-            message: eventName + " " + time,
+            title: title,
+            message: title,
             playSound: false,
             soundName: 'default',
-            ongoing: true
+            ongoing: false
         });
     }
 
     //Appears after a specified time. App does not have to be open.
-    scheduleEvent(ongoing, time, eventName, nextPrayerTime, nextPrayerTitle) {
-        console.log("ongoing " + ongoing + " nextPrayerTitle " + nextPrayerTitle);
+    scheduleEvent(ongoing, time, subtitle, title, appData) {
         // this.lastId++;
         let date = getDateWithTime(time);
         console.log("scheduling notification at " + date);
         PushNotification.localNotificationSchedule({
             id: date.getTime(),
             date: date,
-            title: ongoing ? "Next Prayer" : "Current Prayer",
-            message: !ongoing ? (eventName + " " + time) : (nextPrayerTitle + " " + nextPrayerTime),
-            playSound: true,
+            title: title,
+            message: subtitle,
+            playSound: appData.notificationTypeSound ? true : false,
+            vibrate: appData.notificationTypeVibrate ? true : false,
             soundName: 'default',
-            ongoing: ongoing
+            ongoing: appData.pinned ? ongoing : false,
         });
     }
 
@@ -69,3 +68,6 @@ export default class NotificationService {
         PushNotification.cancelAllLocalNotifications();
     }
 }
+
+const NotificationServiceInstance = new NotificationService();
+export default NotificationServiceInstance;

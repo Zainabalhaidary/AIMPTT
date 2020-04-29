@@ -33,6 +33,18 @@ export const MONTHS = [
     { id: 10, name: "November" },
     { id: 11, name: "December"}
 ];
-
+export const TODAY_PRAYERS_EXAMPLE = {
+    id: "2897",
+    City: "8",
+    Date: "2019-12-08",
+    Day: "8",
+    Imsak: "06:00:00",
+    Dawn: "18:45:00",
+    Sunrise: "07:53:00",
+    Noon: "18:59:00",
+    Sunset: "15:52:00",
+    Maghrib: "18:30:00",
+    Midnight: "23:08:00"
+  };
 
 

@@ -2,17 +2,12 @@ import { SAVE_APP_STATE, PRAYERS_ARE_LOADING, PRAYERS_HAS_ERRORED } from '../act
 
 const INITIAL_STATE = {
     city: 8,//london by default
-    adjustment: 0,
     notificationTypeSound: true,
     notificationTypeVibrate: true,
     notificationTimes: [0, 1, 2, 3, 4, 5, 6],
-    eventType: null, //prayer/ non- prayer
     pinned: true,
-    currentPrayer: null,
-    nextPrayer: null,
     todaysPrayers: null,
     tomorrowsPrayers: null,
-    outDated: true,
     prayers: [],
     loading: false,
     error: null,

@@ -1,5 +1,17 @@
-import { isBetween, getMonthStartDate, getMonthEndDate, getDateWithTime, getNextPrayer } from "../src/utils";
+import { isBetween, getMonthStartDate, getMonthEndDate, getDateWithTime, getNextPrayer, getTimeDiff } from "../src/utils";
 import moment from "moment";
+
+jest.mock('react-native-push-notification', () => ({
+    configure: jest.fn(),
+    onRegister: jest.fn(),
+    onNotification: jest.fn(),
+    addEventListener: jest.fn(),
+    requestPermissions: jest.fn(),
+}));
+beforeAll(() => {
+    jest.mock('@react-native-community/async-storage');
+});
+
 
 test("Test isBetween method ", () => {
     expect(isBetween("19:22", "19:15", "19:30")).toBe(true);
@@ -77,7 +89,7 @@ test("test getNextPrayer function 1", () => {
         Maghrib: "16:07:00",
         Midnight: "23:08:00"
     };
-    expect(getNextPrayer(today, "Maghrib", tom)).toEqual({"key": "Dawn", "value": "06:11:00"});
+    expect(getNextPrayer(today, tom, "Dawn")).toEqual({ "key": "Noon", "value": "11:53:00" });
 });
 
 test("test getNextPrayer function 2", () => {
@@ -94,20 +106,11 @@ test("test getNextPrayer function 2", () => {
         Maghrib: "16:07:00",
         Midnight: "23:08:00"
     };
-    let tom = {
-        id: "2897",
-        City: "8",
-        Date: "2019-12-08",
-        Day: "8",
-        Imsak: "06:00:00",
-        Dawn: "06:11:00",
-        Sunrise: "07:53:00",
-        Noon: "11:53:00",
-        Sunset: "15:52:00",
-        Maghrib: "16:07:00",
-        Midnight: "23:08:00"
-    };
-    expect(getNextPrayer(today, "Dawn", tom)).toEqual({"key": "Noon", "value": "11:53:00"});
-})
+    expect(getNextPrayer(today, today, "Maghrib")).toEqual({ "key": "Dawn", "value": "06:10:00" });
+});
+
+test("test getTimeDiff function ", () => {
+    expect(getTimeDiff("19:45", "20:10")).toEqual(1500000);
+});
 
 
