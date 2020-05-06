@@ -202,7 +202,6 @@ export const updateData = () => {
             .catch((err) => {
                 console.log(err);
             });
-        store.dispatch(getTomorrowPrayer());
     }
 };
 //gets the time difference between two times in milliseconds
