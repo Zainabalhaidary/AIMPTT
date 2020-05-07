@@ -66,7 +66,7 @@ class SettingsScreen extends React.PureComponent {
             onPress={() => this.changeModalState("showPinnedModal", true)}>
             <View style={{ paddingRight: responsiveWidth(5) }}><Icon type="MaterialCommunityIcons" name="pin" /></View>
             <View>
-              <Text style={styles.genericText}>Pinned Notification</Text>
+              <Text style={styles.genericText}>Pinned Notification for next prayer</Text>
               <Text style={styles.smallText}>{this.props.app.pinned ? "Yes" : "No"}</Text>
             </View>
           </TouchableOpacity>

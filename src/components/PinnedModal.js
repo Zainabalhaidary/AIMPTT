@@ -24,7 +24,7 @@ class PinnedModal extends React.PureComponent {
                     <View style={{ ...styles.modalStyleSmall, paddingVertical: responsiveWidth(5), width: responsiveWidth(60) }}>
                         <View style={{ ...styles.settingButtonOuterView, paddingVertical: responsiveWidth(1) }}>
                             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-around", alignItems: 'center' }}>
-                                <Text>Pinned Notification</Text>
+                                <Text>Pinned Notification for next prayer</Text>
                                 <Switch
                                     onValueChange={(value) => this.toggleSwitch("pinnedSwitchValue", value)}
                                     value={this.state.pinnedSwitchValue} />

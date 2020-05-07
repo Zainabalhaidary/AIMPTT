@@ -1,6 +1,6 @@
 import { SAVE_APP_STATE, PRAYERS_HAS_ERRORED, PRAYERS_ARE_LOADING } from './types';
 import { getPrayersApi, getPrayerApi } from '../utils/api';
-import { getTomorrowsDate, generateNotifications } from '../utils';
+import { getTomorrowsDate, generateNotifications, scheduleNextPrayer } from '../utils';
 
 export const saveAppState = (item) => {
     return {
@@ -28,6 +28,11 @@ export const saveAppStateBroker = (item) => {
             //cancel old alarms
             //check for new ones
             generateNotifications(true);
+            if (currApp.pinned !== item.pinned) {
+                if (item.pinned) {
+                    scheduleNextPrayer(getState().app, true, false);
+                }
+            }
         }
     };
 };

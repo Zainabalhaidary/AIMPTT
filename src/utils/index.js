@@ -118,7 +118,6 @@ export const generateNotifications = (cancelPreviousAlrams = false) => {
     //update data if redundant
     updateData()
         .then(() => {
-            //NotificationServiceInstance.localNotification(false, moment().format("HH:mm"), "Generating Notifications", "Generating Notifications", store.getState().app);
             const { todaysPrayers, notificationTimes } = store.getState().app;
             //let todaysPrayers = TODAY_PRAYERS_EXAMPLE;
             //let tomorrowsPrayers = TODAY_PRAYERS_EXAMPLE;
@@ -216,13 +215,15 @@ export const getTimeDiff = (start, end) => {
     return moment(end, "HH:mm:ss").diff(moment(start, "HH:mm:ss"), "millisecond");
 };
 //schedules the next prayer based on current time (meant to be used when the all first starts)
-export const scheduleNextPrayer = (appData) => {
+export const scheduleNextPrayer = (appData, forceUpdate = false, cancelAll = true) => {
     //Should only be used when the app is fired for the first time
-    if (!store.getState().app.todaysPrayers) {
+    if (!store.getState().app.todaysPrayers || forceUpdate) {
         //update data if redundant
         updateData()
             .then(() => {
-                NotificationServiceInstance.cancelAll();
+                if (cancelAll) {
+                    NotificationServiceInstance.cancelAll();
+                }
                 appData = !appData ? store.getState().app : appData;
                 const { todaysPrayers, tomorrowsPrayers, notificationTimes } = appData;
                 let prayersArr = ["Dawn", "Noon", "Maghrib"];
