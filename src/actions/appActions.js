@@ -28,11 +28,11 @@ export const saveAppStateBroker = (item) => {
             //cancel old alarms
             //check for new ones
             generateNotifications(true);
-            if (currApp.pinned !== item.pinned) {
+            //if (currApp.pinned !== item.pinned) {
                 if (item.pinned) {
                     scheduleNextPrayer(getState().app, true, false);
                 }
-            }
+            //}
         }
     };
 };
