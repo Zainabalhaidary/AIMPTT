@@ -16,6 +16,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* AIMPrayerTimeTableTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AIMPrayerTimeTableTests.m */; };
+		2E93E19C2464954700C01DE6 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E93E19B2464954700C01DE6 /* RNBackgroundFetch+AppDelegate.m */; };
 		871BD87B34F8A95869C1FA10 /* libPods-AIMPrayerTimeTable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA1E6048453468E05F7122B /* libPods-AIMPrayerTimeTable.a */; };
 		90D5A735C5029880CCC39F9C /* libPods-AIMPrayerTimeTable-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB7AAD2AE9F8674937D29457 /* libPods-AIMPrayerTimeTable-tvOSTests.a */; };
 		E0705E41803118676A6477A1 /* libPods-AIMPrayerTimeTable-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 948854C493F9966E88D382C1 /* libPods-AIMPrayerTimeTable-tvOS.a */; };
@@ -57,6 +58,7 @@
 		26E812FD5835617BAE9E39ED /* Pods-AIMPrayerTimeTable-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIMPrayerTimeTable-tvOS.release.xcconfig"; path = "Target Support Files/Pods-AIMPrayerTimeTable-tvOS/Pods-AIMPrayerTimeTable-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* AIMPrayerTimeTable-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AIMPrayerTimeTable-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* AIMPrayerTimeTable-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AIMPrayerTimeTable-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E93E19B2464954700C01DE6 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
 		2EBD718A244C5D46001C45F0 /* AIMPrayerTimeTableDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AIMPrayerTimeTableDebug.entitlements; path = AIMPrayerTimeTable/AIMPrayerTimeTableDebug.entitlements; sourceTree = "<group>"; };
 		41D6586EDC792492A238E34F /* Pods-AIMPrayerTimeTable-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIMPrayerTimeTable-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-AIMPrayerTimeTable-tvOSTests/Pods-AIMPrayerTimeTable-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		42EBD10C6D024FCA9E7C26CD /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 		13B07FAE1A68108700A75B9A /* AIMPrayerTimeTable */ = {
 			isa = PBXGroup;
 			children = (
+				2E93E19B2464954700C01DE6 /* RNBackgroundFetch+AppDelegate.m */,
 				2EBD718A244C5D46001C45F0 /* AIMPrayerTimeTableDebug.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -622,6 +625,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E93E19C2464954700C01DE6 /* RNBackgroundFetch+AppDelegate.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
