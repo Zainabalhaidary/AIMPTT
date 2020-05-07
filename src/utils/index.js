@@ -108,59 +108,63 @@ export const isBetween = (time, startOfRange, endOfRange) => {
         beforeTime = moment(startOfRange, format),
         afterTime = moment(endOfRange, format);
     if (time.isBetween(beforeTime, afterTime, null, '[]')) {
-        console.log("in between");
+        //console.log("in between");
         return true;
     }
     return false;
 };
 //iterates through times and generates notifications
-export const generateNotifications = async (cancelPreviousAlrams = false) => {
-    NotificationServiceInstance.localNotification("Generating notifications");
-    await updateData();
-    const { todaysPrayers, notificationTimes } = store.getState().app;
-    //let todaysPrayers = TODAY_PRAYERS_EXAMPLE;
-    //let tomorrowsPrayers = TODAY_PRAYERS_EXAMPLE;
-    let eventsArr = ["Imsak", "Sunrise", "Sunset", "Midnight"];
-    let prayersArr = ["Dawn", "Noon", "Maghrib"];
-    let times = notificationTimes.map(notifTimeId => (getEventName(notifTimeId)));
-    console.log("selected times array " + JSON.stringify(times));
-    let format = 'HH:mm';
-    let timeStart = moment().format("HH:mm");
-    let timeEnd = moment(timeStart, format).add(15, 'minutes').format(format);
-    if (cancelPreviousAlrams) {
-        NotificationServiceInstance.cancelAll();
-    }
-    Object.keys(todaysPrayers).map((key) => {
-        if (times.includes(key)) {
-            if (isBetween(todaysPrayers[key].slice(0, -3), timeStart, timeEnd)) {
-                if (eventsArr.includes(key)) {
-                    console.log("regular event");
-                    scheculeNotif(store.getState().app, key, false);
-                }
-                else if (prayersArr.includes(key)) {
-                    console.log("prayer event");
-                    let delay = getTimeDiff(todaysPrayers[key].slice(0, -3), timeEnd);
-                    scheculeNotif(store.getState().app, key, true, delay);
-                }
+export const generateNotifications = (cancelPreviousAlrams = false) => {
+    //update data if redundant
+    updateData()
+        .then(() => {
+            //NotificationServiceInstance.localNotification(false, moment().format("HH:mm"), "Generating Notifications", "Generating Notifications", store.getState().app);
+            const { todaysPrayers, notificationTimes } = store.getState().app;
+            //let todaysPrayers = TODAY_PRAYERS_EXAMPLE;
+            //let tomorrowsPrayers = TODAY_PRAYERS_EXAMPLE;
+            let eventsArr = ["Imsak", "Sunrise", "Sunset", "Midnight"];
+            let prayersArr = ["Dawn", "Noon", "Maghrib"];
+            let times = notificationTimes.map(notifTimeId => (getEventName(notifTimeId)));
+            // console.log("selected times array " + JSON.stringify(times));
+            let format = 'HH:mm';
+            let timeStart = moment().format("HH:mm");
+            let timeEnd = moment(timeStart, format).add(16, 'minutes').format(format);
+            if (cancelPreviousAlrams) {
+                NotificationServiceInstance.cancelAll();
             }
-        }
-    });
+            Object.keys(todaysPrayers).map((key) => {
+                if (times.includes(key)) {
+                    if (isBetween(todaysPrayers[key].slice(0, -3), timeStart, timeEnd)) {
+                        if (eventsArr.includes(key)) {
+                            // console.log("regular event");
+                            scheculeNotif(store.getState().app, key, false);
+                        }
+                        else if (prayersArr.includes(key)) {
+                            // console.log("prayer event");
+                            let delay = getTimeDiff(todaysPrayers[key].slice(0, -3), timeEnd);
+                            scheculeNotif(store.getState().app, key, true, delay);
+                        }
+                    }
+                }
+            });
+        })
+        .catch((err) => { console.log(err); });
 };
 //schedules the next events notfication
 export const scheculeNotif = (appData, currentEventKey, scheduleNext, delay) => {
     const { todaysPrayers, tomorrowsPrayers } = appData;
     // let todaysPrayers = TODAY_PRAYERS_EXAMPLE;
     // let tomorrowsPrayers = TODAY_PRAYERS_EXAMPLE;
-    console.log("schedule notif");
+    // console.log("schedule notif");
     if (scheduleNext) {
-        console.log("show pinned next");
+        // console.log("show pinned next");
         let nextEvent = getNextPrayer(todaysPrayers, tomorrowsPrayers, currentEventKey);
         setTimeout(NotificationServiceInstance.cancelAll(), delay);
         NotificationServiceInstance.scheduleEvent(true, todaysPrayers[currentEventKey], nextEvent.key + " " + nextEvent.value, "Next Prayer", appData);//next prayer pinned alarm
         NotificationServiceInstance.scheduleEvent(false, todaysPrayers[currentEventKey], currentEventKey + " " + todaysPrayers[currentEventKey], "Athan", appData);//current prayer unpinned alarm
     }
     else {
-        console.log("not pinned");
+        // console.log("not pinned");
         NotificationServiceInstance.scheduleEvent(false, todaysPrayers[currentEventKey], currentEventKey + " " + todaysPrayers[currentEventKey], "Alarm", appData);
     }
 };
@@ -194,18 +198,59 @@ export const getNextPrayer = (obj, obj2, key) => {
 };
 //gets the latest data from the api if data is outdated
 export const updateData = () => {
-    if (!store.getState().app.todaysPrayers || store.getState().app.todaysPrayers.Date !== getTodaysDate() || store.getState().app.todaysPrayers.City != store.getState().app.city) {
-        store.dispatch(getTodayPrayer())
-            .then(() => {
-                return store.dispatch(getTomorrowPrayer());
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
+    let p = new Promise(async (resolve, reject) => {
+        if (!store.getState().app.todaysPrayers || store.getState().app.todaysPrayers.Date !== getTodaysDate() || store.getState().app.todaysPrayers.City != store.getState().app.city) {
+            try {
+                await store.dispatch(getTodayPrayer());
+                await store.dispatch(getTomorrowPrayer());
+            } catch (e) {
+                reject('Error fetching prayers');
+            }
+        }
+        resolve();
+    });
+    return p;
 };
 //gets the time difference between two times in milliseconds
 export const getTimeDiff = (start, end) => {
     return moment(end, "HH:mm:ss").diff(moment(start, "HH:mm:ss"), "millisecond");
+};
+//schedules the next prayer based on current time (meant to be used when the all first starts)
+export const scheduleNextPrayer = (appData) => {
+    //Should only be used when the app is fired for the first time
+    if (!store.getState().app.todaysPrayers) {
+        //update data if redundant
+        updateData()
+            .then(() => {
+                NotificationServiceInstance.cancelAll();
+                appData = !appData ? store.getState().app : appData;
+                const { todaysPrayers, tomorrowsPrayers, notificationTimes } = appData;
+                let prayersArr = ["Dawn", "Noon", "Maghrib"];
+                let times = notificationTimes.map(notifTimeId => (getEventName(notifTimeId)));
+                let timeStart = moment().format("HH:mm");
+                let min = Number.MAX_VALUE;
+                let prayerName = null;
+                let prayerTime = null;
+                Object.keys(todaysPrayers).map((key) => {
+                    if (times.includes(key)) {
+                        if (prayersArr.includes(key)) {
+                            let delay = getTimeDiff(timeStart, todaysPrayers[key].slice(0, -3));
+                            if (delay > 0 && delay < min) {
+                                min = delay;
+                                prayerName = key;
+                                prayerTime = todaysPrayers[prayerName];
+                            }
+                        }
+                    }
+                });
+                if (!prayerName) {
+                    prayerName = "Dawn";
+                    prayerTime = tomorrowsPrayers[prayerName];
+                }
+                NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), prayerName + " " + prayerTime, "Next Prayer", appData);
+                return prayerName;
+            })
+            .catch((err) => { console.log(err); });
+    }
 };
 

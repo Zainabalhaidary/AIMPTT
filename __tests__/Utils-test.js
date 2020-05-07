@@ -1,4 +1,4 @@
-import { isBetween, getMonthStartDate, getMonthEndDate, getDateWithTime, getNextPrayer, getTimeDiff } from "../src/utils";
+import { isBetween, getMonthStartDate, getMonthEndDate, getDateWithTime, getNextPrayer, getTimeDiff, scheduleNextPrayer } from "../src/utils";
 import moment from "moment";
 
 jest.mock('react-native-push-notification', () => ({
@@ -7,6 +7,7 @@ jest.mock('react-native-push-notification', () => ({
     onNotification: jest.fn(),
     addEventListener: jest.fn(),
     requestPermissions: jest.fn(),
+    localNotification: jest.fn(),
 }));
 beforeAll(() => {
     jest.mock('@react-native-community/async-storage');
@@ -58,8 +59,7 @@ test("get next key-value pair from an object", () => {
     });
     let nextEventIndex = keys.indexOf("Sunrise") + 1;
     let nextItem = keys[nextEventIndex];
-    console.log("nextEventIndex " + nextEventIndex);
-    console.log("nextItem " + nextItem);
+    expect(nextItem).toEqual("Noon");
 });
 
 test("test getNextPrayer function 1", () => {
@@ -111,6 +111,42 @@ test("test getNextPrayer function 2", () => {
 
 test("test getTimeDiff function ", () => {
     expect(getTimeDiff("19:45", "20:10")).toEqual(1500000);
+});
+
+test("test scheduleNextPrayer function ", () => {
+    expect(scheduleNextPrayer(
+        {
+            notificationTimes: [0, 1, 2, 3, 4, 5, 6],
+            todaysPrayers: {
+                id: "8164",
+                City: "8",
+                Date: "2020-05-06",
+                Day: "6",
+                Imsak: "03:22:00",
+                Dawn: "03:32:00",
+                Sunrise: "05:23:00",
+                Noon: "12:57:00",
+                Sunset: "20:32:00",
+                // Maghrib: "20:47:00",
+                // Midnight: "00:08:00"
+                Maghrib: "12:47:00",
+                Midnight: "12:08:00"
+            },
+            tomorrowsPrayers: {
+                City: "8",
+                Date: "2020-05-07",
+                Dawn: "03:30:00",
+                Day: "7",
+                Imsak: "03:20:00",
+                Maghrib: "20:49:00",
+                Midnight: "00:07:00",
+                Noon: "12:57:00",
+                Sunrise: "05:22:00",
+                Sunset: "20:34:00",
+                id: "8165"
+            }
+        }
+)).toEqual("Dawn");
 });
 
 

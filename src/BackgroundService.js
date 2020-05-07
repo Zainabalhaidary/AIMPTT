@@ -2,7 +2,7 @@ import BackgroundFetch from "react-native-background-fetch";
 import { generateNotifications,  } from "./utils";
 // import { getTodayPrayer, getTomorrowPrayer } from "./actions";
 export const backgroundServiceForAlarams = async () => {
-  console.log("configuring background service");
+  //console.log("configuring background service");
   // Configure it.
   BackgroundFetch.configure(
     {
@@ -19,7 +19,7 @@ export const backgroundServiceForAlarams = async () => {
       taskId: "com.aim.prayertimes.notification"
     },
     async taskId => {
-      console.log('[js] Received background-fetch event: ', taskId);
+      // console.log('[js] Received background-fetch event: ', taskId);
       generateNotifications();
       // Required: Signal completion of your task to native code
       // If you fail to do this, the OS can terminate your app

@@ -26,16 +26,18 @@ class NotificationService {
     }
 
     //Appears right away
-    localNotification(title) {
+    localNotification(ongoing, time, subtitle, title, appData) {
         // this.lastId++;
-        let date = new Date();
+        let date = getDateWithTime(time);
         PushNotification.localNotification({
             id: date.getTime(),
+            //date: date,
             title: title,
-            message: title,
-            playSound: false,
+            message: subtitle,
+            playSound: appData.notificationTypeSound ? true : false,
+            vibrate: appData.notificationTypeVibrate ? true : false,
             soundName: 'default',
-            ongoing: false
+            ongoing: appData.pinned ? ongoing : false,
         });
     }
 
@@ -43,7 +45,6 @@ class NotificationService {
     scheduleEvent(ongoing, time, subtitle, title, appData) {
         // this.lastId++;
         let date = getDateWithTime(time);
-        console.log("scheduling notification at " + date);
         PushNotification.localNotificationSchedule({
             id: date.getTime(),
             date: date,

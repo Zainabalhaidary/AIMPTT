@@ -19,7 +19,6 @@ export const getPrayersApi = (city, monthStart, monthEnd) => {
 
 //function that gets all the prayers for the current day
 export const getPrayerApi = (city, date = getTodaysDate()) => {
-    NotificationServiceInstance.localNotification("I am fetching data right now");
     return new Promise((resolve, reject) => {
         instance.get("read_single.php?Date=\"" + date + "\"&City=" + city)
             .then((resp) => {
