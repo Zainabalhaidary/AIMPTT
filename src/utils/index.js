@@ -4,6 +4,7 @@ import NotificationServiceInstance from '../NotificationService';
 // import { TODAY_PRAYERS_EXAMPLE } from "../Constants";
 import store from '../store';
 import { getTodayPrayer, getTomorrowPrayer } from "../actions";
+import { APP_DATA } from "../Constants";
 
 //returns todays date
 export const getTodaysDate = () => moment().format('YYYY-MM-DD');
@@ -115,9 +116,12 @@ export const isBetween = (time, startOfRange, endOfRange) => {
 };
 //iterates through times and generates notifications
 export const generateNotifications = (cancelPreviousAlrams = false) => {
+    NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "generateNotifications", "generateNotifications", APP_DATA);
     //update data if redundant
     updateData()
         .then(() => {
+            NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "passed update data", "passed update data", APP_DATA);
+
             const { todaysPrayers, notificationTimes } = store.getState().app;
             //let todaysPrayers = TODAY_PRAYERS_EXAMPLE;
             //let tomorrowsPrayers = TODAY_PRAYERS_EXAMPLE;
@@ -129,6 +133,7 @@ export const generateNotifications = (cancelPreviousAlrams = false) => {
             let timeStart = moment().format("HH:mm");
             let timeEnd = moment(timeStart, format).add(16, 'minutes').format(format);
             if (cancelPreviousAlrams) {
+                NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "cancelPreviousAlrams", "cancel all", APP_DATA);
                 NotificationServiceInstance.cancelAll();
             }
             Object.keys(todaysPrayers).map((key) => {
@@ -158,6 +163,7 @@ export const scheculeNotif = (appData, currentEventKey, scheduleNext, delay) => 
     if (scheduleNext) {
         // console.log("show pinned next");
         let nextEvent = getNextPrayer(todaysPrayers, tomorrowsPrayers, currentEventKey);
+        NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "cancel all in " + delay, "cancel all", APP_DATA);
         setTimeout(NotificationServiceInstance.cancelAll(), delay);
         NotificationServiceInstance.scheduleEvent(true, todaysPrayers[currentEventKey], nextEvent.key + " " + nextEvent.value, "Next Prayer", appData);//next prayer pinned alarm
         NotificationServiceInstance.scheduleEvent(false, todaysPrayers[currentEventKey], currentEventKey + " " + todaysPrayers[currentEventKey], "Athan", appData);//current prayer unpinned alarm
@@ -218,6 +224,7 @@ export const getTimeDiff = (start, end) => {
 export const scheduleNextPrayer = (appData, forceUpdate = false, cancelAll = true) => {
     //Should only be used when the app is fired for the first time
     if (!store.getState().app.todaysPrayers || forceUpdate) {
+        NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "scheduleNextPrayer", "scheduleNextPrayer", APP_DATA);
         //update data if redundant
         updateData()
             .then(() => {

@@ -31,7 +31,7 @@ export const MONTHS = [
     { id: 8, name: "September" },
     { id: 9, name: "October" },
     { id: 10, name: "November" },
-    { id: 11, name: "December"}
+    { id: 11, name: "December" }
 ];
 export const TODAY_PRAYERS_EXAMPLE = {
     id: "2897",
@@ -45,6 +45,12 @@ export const TODAY_PRAYERS_EXAMPLE = {
     Sunset: "15:52:00",
     Maghrib: "18:30:00",
     Midnight: "23:08:00"
-  };
+};
+
+export const APP_DATA = {
+    notificationTypeSound: true,
+    notificationTypeVibrate: true,
+    pinned: false
+};
 
 
