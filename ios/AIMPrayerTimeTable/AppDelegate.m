@@ -12,7 +12,7 @@
 #import <React/RCTRootView.h>
 #import <RNCPushNotificationIOS.h>
 #import <UserNotifications/UserNotifications.h>
-
+#import <TSBackgroundFetch/TSBackgroundFetch.h>
 
 @implementation AppDelegate
 
@@ -34,6 +34,8 @@
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
 	
+  // [REQUIRED] Register BackgroundFetch
+  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
   return YES;
 }
 
