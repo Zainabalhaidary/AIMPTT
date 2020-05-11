@@ -163,7 +163,7 @@ export const scheculeNotif = (appData, currentEventKey, scheduleNext, delay) => 
     if (scheduleNext) {
         // console.log("show pinned next");
         let nextEvent = getNextPrayer(todaysPrayers, tomorrowsPrayers, currentEventKey);
-        NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "cancel all in " + delay, "cancel all", APP_DATA);
+        //NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "cancel all in " + delay, "cancel all", APP_DATA);
         //setTimeout(NotificationServiceInstance.cancelAll(), delay);
         NotificationServiceInstance.scheduleEvent(true, todaysPrayers[currentEventKey], nextEvent.key + " " + nextEvent.value, "Next Prayer", appData);//next prayer pinned alarm
         NotificationServiceInstance.scheduleEvent(false, todaysPrayers[currentEventKey], currentEventKey + " " + todaysPrayers[currentEventKey], "Athan", appData);//current prayer unpinned alarm
