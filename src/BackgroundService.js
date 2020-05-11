@@ -10,6 +10,7 @@ export const backgroundServiceForAlarams = async () => {
       // Android options
       forceAlarmManager: true, // <-- Set true to bypass JobScheduler.
       stopOnTerminate: false,
+      enableHeadless:true,
       startOnBoot: true,
       requiredNetworkType: BackgroundFetch.NETWORK_TYPE_ANY, // Default
       requiresCharging: false, // Default

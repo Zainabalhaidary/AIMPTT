@@ -27,26 +27,26 @@ class NotificationService {
 
     //Appears right away
     localNotification(ongoing, time, subtitle, title, appData) {
-        // this.lastId++;
+        let onGoingFlag = appData.pinned ? ongoing : false;
         let date = getDateWithTime(time);
         PushNotification.localNotification({
-            id: date.getTime(),
+            id: onGoingFlag ? 12121212 : date.getTime(),
             //date: date,
             title: title,
             message: subtitle,
             playSound: appData.notificationTypeSound ? true : false,
             vibrate: appData.notificationTypeVibrate ? true : false,
             soundName: 'default',
-            ongoing: appData.pinned ? ongoing : false,
+            ongoing: onGoingFlag,
         });
     }
 
     //Appears after a specified time. App does not have to be open.
     scheduleEvent(ongoing, time, subtitle, title, appData) {
-        // this.lastId++;
+        let onGoingFlag = appData.pinned ? ongoing : false;
         let date = getDateWithTime(time);
         PushNotification.localNotificationSchedule({
-            id: date.getTime(),
+            id: onGoingFlag ? 12121212 : date.getTime(),
             date: date,
             title: title,
             message: subtitle,

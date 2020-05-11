@@ -132,10 +132,10 @@ export const generateNotifications = (cancelPreviousAlrams = false) => {
             let format = 'HH:mm';
             let timeStart = moment().format("HH:mm");
             let timeEnd = moment(timeStart, format).add(16, 'minutes').format(format);
-            if (cancelPreviousAlrams) {
-                NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "cancelPreviousAlrams", "cancel all", APP_DATA);
-                NotificationServiceInstance.cancelAll();
-            }
+            // if (cancelPreviousAlrams) {
+            //     NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "cancelPreviousAlrams", "cancel all", APP_DATA);
+            //     NotificationServiceInstance.cancelAll();
+            // }
             Object.keys(todaysPrayers).map((key) => {
                 if (times.includes(key)) {
                     if (isBetween(todaysPrayers[key].slice(0, -3), timeStart, timeEnd)) {
@@ -164,7 +164,7 @@ export const scheculeNotif = (appData, currentEventKey, scheduleNext, delay) => 
         // console.log("show pinned next");
         let nextEvent = getNextPrayer(todaysPrayers, tomorrowsPrayers, currentEventKey);
         NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "cancel all in " + delay, "cancel all", APP_DATA);
-        setTimeout(NotificationServiceInstance.cancelAll(), delay);
+        //setTimeout(NotificationServiceInstance.cancelAll(), delay);
         NotificationServiceInstance.scheduleEvent(true, todaysPrayers[currentEventKey], nextEvent.key + " " + nextEvent.value, "Next Prayer", appData);//next prayer pinned alarm
         NotificationServiceInstance.scheduleEvent(false, todaysPrayers[currentEventKey], currentEventKey + " " + todaysPrayers[currentEventKey], "Athan", appData);//current prayer unpinned alarm
     }
@@ -220,45 +220,49 @@ export const updateData = () => {
 export const getTimeDiff = (start, end) => {
     return moment(end, "HH:mm:ss").diff(moment(start, "HH:mm:ss"), "millisecond");
 };
-//schedules the next prayer based on current time (meant to be used when the all first starts)
+//schedules the next prayer based on current time
 export const scheduleNextPrayer = (appData, forceUpdate = false, cancelAll = true) => {
     //Should only be used when the app is fired for the first time
-    if (!store.getState().app.todaysPrayers || forceUpdate) {
-        NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "scheduleNextPrayer", "scheduleNextPrayer", APP_DATA);
-        //update data if redundant
-        updateData()
-            .then(() => {
-                if (cancelAll) {
-                    NotificationServiceInstance.cancelAll();
-                }
-                appData = !appData ? store.getState().app : appData;
-                const { todaysPrayers, tomorrowsPrayers, notificationTimes } = appData;
-                let prayersArr = ["Dawn", "Noon", "Maghrib"];
-                let times = notificationTimes.map(notifTimeId => (getEventName(notifTimeId)));
-                let timeStart = moment().format("HH:mm");
-                let min = Number.MAX_VALUE;
-                let prayerName = null;
-                let prayerTime = null;
-                Object.keys(todaysPrayers).map((key) => {
-                    if (times.includes(key)) {
-                        if (prayersArr.includes(key)) {
-                            let delay = getTimeDiff(timeStart, todaysPrayers[key].slice(0, -3));
-                            if (delay > 0 && delay < min) {
-                                min = delay;
-                                prayerName = key;
-                                prayerTime = todaysPrayers[prayerName];
-                            }
+    // if (!store.getState().app.todaysPrayers || forceUpdate) {
+    NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "scheduleNextPrayer", "scheduleNextPrayer", APP_DATA);
+    //update data if redundant
+    updateData()
+        .then(() => {
+            //if (cancelAll) {
+            //NotificationServiceInstance.cancelAll();
+            //}
+            appData = !appData ? store.getState().app : appData;
+            const { todaysPrayers, tomorrowsPrayers, notificationTimes } = appData;
+            let prayersArr = ["Dawn", "Noon", "Maghrib"];
+            let times = notificationTimes.map(notifTimeId => (getEventName(notifTimeId)));
+            let timeStart = moment().format("HH:mm");
+            let min = Number.MAX_VALUE;
+            let prayerName = null;
+            let prayerTime = null;
+            Object.keys(todaysPrayers).map((key) => {
+                if (times.includes(key)) {
+                    if (prayersArr.includes(key)) {
+                        let delay = getTimeDiff(timeStart, todaysPrayers[key].slice(0, -3));
+                        if (delay > 0 && delay < min) {
+                            min = delay;
+                            prayerName = key;
+                            prayerTime = todaysPrayers[prayerName];
                         }
                     }
-                });
-                if (!prayerName) {
-                    prayerName = "Dawn";
-                    prayerTime = tomorrowsPrayers[prayerName];
                 }
-                NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), prayerName + " " + prayerTime, "Next Prayer", appData);
-                return prayerName;
-            })
-            .catch((err) => { console.log(err); });
-    }
+            });
+            if (!prayerName) {
+                prayerName = "Dawn";
+                prayerTime = tomorrowsPrayers[prayerName];
+            }
+            NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), prayerName + " " + prayerTime, "Next Prayer", appData);
+            return prayerName;
+        })
+        .catch((err) => { console.log(err); });
+    // }
 };
 
+/// Render Date to string
+export const getTimestamp = (date = new Date()) => {
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+};
