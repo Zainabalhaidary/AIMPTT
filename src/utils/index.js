@@ -116,11 +116,11 @@ export const isBetween = (time, startOfRange, endOfRange) => {
 };
 //iterates through times and generates notifications
 export const generateNotifications = (cancelPreviousAlrams = false) => {
-    NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "generateNotifications", "generateNotifications", APP_DATA);
+    // NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "generateNotifications", "generateNotifications", APP_DATA);
     //update data if redundant
     updateData()
         .then(() => {
-            NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "passed update data", "passed update data", APP_DATA);
+            // NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "passed update data", "passed update data", APP_DATA);
 
             const { todaysPrayers, notificationTimes } = store.getState().app;
             //let todaysPrayers = TODAY_PRAYERS_EXAMPLE;
@@ -153,6 +153,7 @@ export const generateNotifications = (cancelPreviousAlrams = false) => {
             });
         })
         .catch((err) => { console.log(err); });
+    return Promise.resolve(null);
 };
 //schedules the next events notfication
 export const scheculeNotif = (appData, currentEventKey, scheduleNext, delay) => {
@@ -224,7 +225,7 @@ export const getTimeDiff = (start, end) => {
 export const scheduleNextPrayer = (appData, forceUpdate = false, cancelAll = true) => {
     //Should only be used when the app is fired for the first time
     // if (!store.getState().app.todaysPrayers || forceUpdate) {
-    NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "scheduleNextPrayer", "scheduleNextPrayer", APP_DATA);
+    // NotificationServiceInstance.localNotification(true, moment().format("HH:mm"), "scheduleNextPrayer", "scheduleNextPrayer", APP_DATA);
     //update data if redundant
     updateData()
         .then(() => {

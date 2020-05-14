@@ -21,7 +21,7 @@ export const backgroundServiceForAlarams = async () => {
     },
     async taskId => {
       // console.log('[js] Received background-fetch event: ', taskId);
-      generateNotifications();
+      await generateNotifications();
       // Required: Signal completion of your task to native code
       // If you fail to do this, the OS can terminate your app
       // or assign battery-blame for consuming too much background-time
@@ -29,8 +29,21 @@ export const backgroundServiceForAlarams = async () => {
     }, (error) => {
       console.log("[js] RNBackgroundFetch failed to start");
     });
-
-    generateNotifications();
+    // Optional: Query the authorization status.
+    BackgroundFetch.status(async (status) => {
+      switch (status) {
+        case BackgroundFetch.STATUS_RESTRICTED:
+          console.log('BackgroundFetch restricted');
+          break;
+        case BackgroundFetch.STATUS_DENIED:
+          console.log('BackgroundFetch denied');
+          break;
+        case BackgroundFetch.STATUS_AVAILABLE:
+          console.log('BackgroundFetch is enabled');
+          await generateNotifications();
+          break;
+      }
+    });
 };
 
 
